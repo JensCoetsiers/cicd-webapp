@@ -1,0 +1,38 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    ports:
+      - 3000:3000
+    environment:
+      MONGO_URL: mongodb://database:27017
+    depends_on:
+      - database
+    volumes:
+      - app-data:/app/database
+
+  database:
+    image: mongo:4.4.6
+    ports:
+      - 27017:27017
+    volumes:
+      - db-data:/data/db
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+    environment:
+      API_URL: http://app:3000
+    command: ["yarn", "test"]
+
+volumes:
+  app-data:
+  db-data:
+
+
