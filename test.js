@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import {
-  expect
+  expect,
 } from 'chai';
 
 const URL = `${process.env.API_URL || 'http://localhost:3000'}/animals`;
